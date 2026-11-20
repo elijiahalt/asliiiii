@@ -431,6 +431,177 @@
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
+</html>s="sub">my twin 🎂🎊</p>
+  </section>
+
+  <!-- LETTER -->
+  <section class="reveal">
+    <h2>A Letter For You</h2>
+    <p class="hint">tap the envelope</p>
+
+    <button class="envelope" id="envelope" aria-label="Open the letter">
+      <div class="env-back"></div>
+      <div class="env-bottom"></div>
+      <div class="env-front"></div>
+      <div class="flap"></div>
+      <div class="seal">💙</div>
+    </button>
+    <p class="tap" id="tapText">tap to open ✉️</p>
+
+    <div class="letter-wrap" id="letterWrap">
+      <div class="letter-inner">
+        <article class="letter">
+          <h3>Dear Ling,</h3>
+
+          <p>Happy Birthday Ling, my twin! 🎂🎊</p>
+
+          <p>I still can't believe I was born on the same day as my best friend, but I'm so glad we were. Having you in my life absolutely feels like having a real sister, a twin in fact that I didn't know I needed 🥺🥺. You're always there for me, you look after me, you care about me, the one who makes me realize things, and you just make everything better. 🥺</p>
+
+          <p>I don't think it was a coincidence that we met at all. I think God really meant for us to meet and I'm glad he did put you into my life.</p>
+
+          <p>I still remember the first time we spoke in 7th grade WHAHAHA.. We spoke a lot and as time went on I was just like "yo, this girl is really something." There's just something special about you that makes me feel at ease and happy. But then you suddenly disappeared at one point, but that one spot in my heart just for you never did. I'd still think of you sometimes and be like "I hope we can have that connection again," and I never thought we'd ever get that close again. I'll always be grateful for that gift from God that he let us ❤️.</p>
+
+          <p>I just hope this year for your birthday it brings you all the good stuff you deserve: happiness, peace, foods, and all the good things HAHAWHA 😆😝.. Thanks for being my twin and just being you. Whenever we're together, nothing could make me happier..</p>
+
+          <p>Just so you know, you're stuck with me as your twin forever and no one else is going to get that spot in my heart. You're stuck with me, no returns, no refunds HWHAHHA 😆. Love you, twin! ❤️❤️</p>
+
+          <p class="signed">Again, Happy Birthday Aslii 🥺🥺</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLAROIDS -->
+  <section class="reveal">
+    <h2>Our Memories</h2>
+    <p class="hint">tap a photo to read its little note</p>
+
+    <div class="polaroids">
+
+      <!-- POLAROID 1: put your photo in the same folder as photo1.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo1.jpg</span><img src="photo1.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">Still a kid?</div>
+          </div>
+          <div class="face back">
+            <h4>I just find it cute</h4>
+            <p>WHAHAHAHAH </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- POLAROID 2: photo2.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo2.jpg</span><img src="photo2.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">MAKE UP???</div>
+          </div>
+          <div class="face back">
+            <h4>Was Suprised</h4>
+            <p>Was really suprised when I saw this even untill now... HAHAH</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- POLAROID 3: photo3.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo3.jpg</span><img src="photo3.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">Picture of us together</div>
+          </div>
+          <div class="face back">
+            <h4>First Picture Together???</h4>
+            <p>First picture man guro ni nato noo?????HAHAHA</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SONG -->
+  <section class="reveal">
+    <h2>Your Favorite Song</h2>
+    <p class="hint">press play and stay a while</p>
+    <div class="song">
+      <div class="disc" id="disc"></div>
+      <div class="song-title">Statue</div>
+      <div class="song-artist">Lil Eddie</div>
+      <!-- put the song in the same folder as song.mp3 -->
+      <audio id="audio" controls preload="none" src="song.mp3"></audio>
+    </div>
+  </section>
+
+  <section class="reveal">
+  <h2>Meet the cat 🐱</h2>
+  <p class="hint">This is Milo,he wanted to say happy birthday to you too</p>
+  <img class="cat" src="cat.gif" alt="A cute cat">
+</section>
+
+  <footer>made with 💙 just for you, dawg</footer>
+</main>
+
+<script>
+  // ----- open the envelope -----
+  const envelope = document.getElementById('envelope');
+  const letterWrap = document.getElementById('letterWrap');
+  const tapText = document.getElementById('tapText');
+
+  envelope.addEventListener('click', () => {
+    const opening = !envelope.classList.contains('open');
+    envelope.classList.toggle('open', opening);
+    letterWrap.classList.toggle('show', opening);
+    tapText.textContent = opening ? 'tap again to close' : 'tap to open ✉️';
+    if (opening) {
+      confetti();
+      setTimeout(() => letterWrap.scrollIntoView({behavior:'smooth', block:'start'}), 500);
+    }
+  });
+
+  // ----- flip the polaroids -----
+  document.querySelectorAll('.pol').forEach(p => {
+    const flip = () => p.classList.toggle('flipped');
+    p.addEventListener('click', flip);
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+  });
+
+  // ----- spinning disc follows the music -----
+  const audio = document.getElementById('audio');
+  const disc = document.getElementById('disc');
+  audio.addEventListener('play', () => disc.classList.add('playing'));
+  audio.addEventListener('pause', () => disc.classList.remove('playing'));
+  audio.addEventListener('ended', () => disc.classList.remove('playing'));
+
+  // ----- soft blue confetti -----
+  function confetti(){
+    const colors = ['#ffffff','#bcdcf8','#8dbfec','#5b9bd8','#2b5a9a','#d6ebff'];
+    for (let i = 0; i < 36; i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      const size = 6 + Math.random() * 8;
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.width = size + 'px';
+      c.style.height = size * (Math.random() > .5 ? 1 : 1.8) + 'px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+      c.style.animationDuration = 2.6 + Math.random() * 2.4 + 's';
+      c.style.animationDelay = Math.random() * .6 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 6000);
+    }
+  }
+
+  // ----- fade sections in as you scroll -----
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold: .15});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
 </html> class="env-back"></div>
       <div class="env-bottom"></div>
       <div class="env-front"></div>
