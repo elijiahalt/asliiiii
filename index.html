@@ -8,7 +8,7 @@
 <style>
   :root{
     --sky:#e8f4ff;
-    --mist:#4d5964;
+    --mist:#cfe6fb;
     --blue:#5b9bd8;
     --deep:#2b5a9a;
     --ink:#27456b;
@@ -231,15 +231,89 @@
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
   .reveal.in{opacity:1;transform:none}
 
+  /* ---------- intro screen ---------- */
+  body.locked{overflow:hidden;height:100vh}
+  .intro{
+    position:fixed;inset:0;z-index:100;display:grid;place-items:center;text-align:center;
+    background:linear-gradient(180deg,#eaf5ff 0%,#bcdcf8 55%,#8dbfec 100%);
+    cursor:pointer;transition:opacity 1.3s ease,visibility 1.3s;
+  }
+  .intro.gone{opacity:0;visibility:hidden}
+  .intro-text{position:absolute;left:0;right:0;padding:0 24px;opacity:0;transition:opacity 1.5s ease}
+  .intro-text.show{opacity:1}
+  .intro-bday{
+    font-family:'Pacifico',cursive;font-size:clamp(2.4rem,11vw,3.8rem);color:var(--deep);
+    text-shadow:0 3px 0 rgba(255,255,255,.7);
+  }
+  .intro-bday small{display:block;font-family:'Caveat',cursive;font-size:.5em;color:var(--blue);margin-top:6px;text-shadow:none}
+  .intro-click{font-family:'Caveat',cursive;font-size:1.9rem;color:var(--deep)}
+  .intro-click.show{animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+  /* ---------- sound button ---------- */
+  .snd{
+    position:fixed;top:12px;right:12px;z-index:120;width:42px;height:42px;border-radius:50%;
+    border:none;background:rgba(255,255,255,.75);font-size:1.15rem;cursor:pointer;
+    box-shadow:0 4px 12px rgba(43,90,154,.25);-webkit-tap-highlight-color:transparent;
+  }
+
+  /* ---------- cat ---------- */
+  .cat{
+    background:none;border:none;cursor:pointer;position:relative;display:block;
+    margin:56px auto 0;-webkit-tap-highlight-color:transparent;
+  }
+  .cat-pic{
+    width:170px;height:170px;border-radius:50%;overflow:hidden;position:relative;
+    background:linear-gradient(145deg,#d6ebff,#8dbfec);border:6px solid #fff;
+    box-shadow:0 12px 26px rgba(43,90,154,.3);display:grid;place-items:center;font-size:4.5rem;
+  }
+  .cat-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cat.boing .cat-pic{animation:boing .5s}
+  @keyframes boing{
+    0%{transform:scale(1)}30%{transform:scale(1.18) rotate(-6deg)}
+    60%{transform:scale(.95) rotate(4deg)}100%{transform:scale(1)}
+  }
+  .bubble{
+    position:absolute;left:50%;top:-8px;transform:translate(-50%,-100%) scale(.6);opacity:0;
+    background:#fff;color:var(--deep);font-family:'Caveat',cursive;font-size:1.45rem;
+    padding:8px 18px;border-radius:18px;white-space:nowrap;
+    box-shadow:0 6px 16px rgba(43,90,154,.25);transition:opacity .3s,transform .3s;
+  }
+  .cat.talk .bubble{opacity:1;transform:translate(-50%,-100%) scale(1)}
+
+  /* ---------- birthday countdown ---------- */
+  .bday-card{
+    background:rgba(255,255,255,.6);backdrop-filter:blur(6px);
+    border-radius:26px;padding:26px 14px 24px;
+    box-shadow:0 12px 30px rgba(43,90,154,.2);
+  }
+  .bday-today{
+    display:none;font-family:'Pacifico',cursive;color:var(--deep);
+    font-size:1.25rem;line-height:1.5;margin-bottom:14px;
+  }
+  .bday-card.today .bday-today{display:block}
+  .turning{font-family:'Caveat',cursive;font-size:1.65rem;color:var(--deep)}
+  .count{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0 14px}
+  .count div{background:#fff;border-radius:14px;padding:10px 2px 6px;box-shadow:0 5px 12px rgba(43,90,154,.15)}
+  .count b{display:block;font-size:1.45rem;color:var(--deep);font-variant-numeric:tabular-nums}
+  .count span{font-family:'Caveat',cursive;font-size:1.05rem;color:var(--blue)}
+  .on-date{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--blue)}
+
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
   }
-
-  .cat{display:block;width:min(300px,85%);margin:0 auto;border-radius:20px;box-shadow:0 14px 28px rgba(43,90,154,.28)}
-
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- sound on/off -->
+<button class="snd" id="snd" aria-label="Toggle sound">🔊</button>
+
+<!-- intro screen: Happy Birthday fades in, fades out, then "click anywhere" -->
+<div class="intro" id="intro">
+  <div class="intro-text intro-bday" id="introBday">Happy Birthday<small>Ling 💙</small></div>
+  <div class="intro-text intro-click" id="introClick">click anywhere to open ✉️</div>
+</div>
 
 <!-- floating clouds and sparkles -->
 <div class="sky" aria-hidden="true">
@@ -258,7 +332,7 @@
 
   <!-- HERO -->
   <section class="reveal">
-    <p class="eyebrow">a little gift for you</p>
+    <p class="eyebrow">a cozy little corner just for you</p>
     <h1>Happy Birthday, Ling!</h1>
     <p class="sub">my twin 🎂🎊</p>
   </section>
@@ -292,7 +366,7 @@
 
           <p>I just hope this year for your birthday it brings you all the good stuff you deserve: happiness, peace, foods, and all the good things HAHAWHA 😆😝.. Thanks for being my twin and just being you. Whenever we're together, nothing could make me happier..</p>
 
-          <p>Just so you know, you're stuck with me as your twin forever and no one else is going to get that spot in my heart. You're stuck with me, no returns, no refunds HWHAHHA 😆. Love you dawgg</p>
+          <p>Just so you know, you're stuck with me as your twin forever and no one else is going to get that spot in my heart. You're stuck with me, no returns, no refunds HWHAHHA 😆. Love you, twin! ❤️❤️</p>
 
           <p class="signed">Again, Happy Birthday Aslii 🥺🥺</p>
         </article>
@@ -302,7 +376,7 @@
 
   <!-- POLAROIDS -->
   <section class="reveal">
-    <h2>Random photos</h2>
+    <h2>Our Memories</h2>
     <p class="hint">tap a photo to read its little note</p>
 
     <div class="polaroids">
@@ -312,11 +386,11 @@
         <div class="pol-inner">
           <div class="face front">
             <div class="photo"><span>add photo1.jpg</span><img src="photo1.jpg" alt="Us together" onerror="this.style.display='none'"></div>
-            <div class="caption">Still a kid?</div>
+            <div class="caption">where it all started</div>
           </div>
           <div class="face back">
-            <h4>I just found it</h4>
-            <p>WHAHAHAHAH </p>
+            <h4>7th grade</h4>
+            <p>Who knew a random "hi" would turn into my twin? Best accident ever.</p>
           </div>
         </div>
       </div>
@@ -326,11 +400,11 @@
         <div class="pol-inner">
           <div class="face front">
             <div class="photo"><span>add photo2.jpg</span><img src="photo2.jpg" alt="Us together" onerror="this.style.display='none'"></div>
-            <div class="caption">MAKE UP???</div>
+            <div class="caption">found each other again</div>
           </div>
           <div class="face back">
-            <h4>Was Suprised</h4>
-            <p>Was really suprised when I saw this even untill now... HAHAH</p>
+            <h4>Round two</h4>
+            <p>You disappeared, but your spot in my heart never did. Glad we got it back. 💙</p>
           </div>
         </div>
       </div>
@@ -340,11 +414,11 @@
         <div class="pol-inner">
           <div class="face front">
             <div class="photo"><span>add photo3.jpg</span><img src="photo3.jpg" alt="Us together" onerror="this.style.display='none'"></div>
-            <div class="caption">Picture of us together</div>
+            <div class="caption">twins forever</div>
           </div>
           <div class="face back">
-            <h4>First Picture Together???</h4>
-            <p>First picture man guro ni nato noo?????HAHAHA</p>
+            <h4>Terms &amp; conditions</h4>
+            <p>You're stuck with me. No returns, no refunds. 😆</p>
           </div>
         </div>
       </div>
@@ -352,9 +426,19 @@
     </div>
   </section>
 
+  <!-- CAT: put your cat picture in the folder as cat.jpg -->
+  <section class="reveal">
+    <h2>Someone Says Hi</h2>
+    <p class="hint">tap the cat</p>
+    <button class="cat" id="cat" aria-label="Tap the cat">
+      <div class="cat-pic"><span>🐱</span><img src="cat.jpg" alt="Cat" onerror="this.style.display='none'"></div>
+      <div class="bubble">meow~ happy birthday! 🐾</div>
+    </button>
+  </section>
+
   <!-- SONG -->
   <section class="reveal">
-    <h2>Your Favorite Song</h2>
+    <h2>Your Song</h2>
     <p class="hint">press play and stay a while</p>
     <div class="song">
       <div class="disc" id="disc"></div>
@@ -365,70 +449,35 @@
     </div>
   </section>
 
+  <!-- NEXT BIRTHDAY COUNTDOWN -->
   <section class="reveal">
-  <h2>Meet the cat 🐱</h2>
-  <p class="hint">This is Milo,he wanted to say happy birthday to you too</p>
-  <img class="cat" src="cat.gif" alt="A cute cat">
-</section>
+    <h2>Your Next Birthday</h2>
+    <p class="hint">born November 21, 2009</p>
+    <div class="bday-card" id="bdayCard">
+      <div class="bday-today" id="bdayToday"></div>
+      <p class="turning" id="nextLabel"></p>
+      <div class="count">
+        <div><b id="cMonths">0</b><span>months</span></div>
+        <div><b id="cDays">0</b><span>days</span></div>
+        <div><b id="cHours">0</b><span>hours</span></div>
+        <div><b id="cMins">0</b><span>mins</span></div>
+        <div><b id="cSecs">0</b><span>secs</span></div>
+      </div>
+      <p class="on-date" id="onDate"></p>
+    </div>
+  </section>
 
-  <footer>made with 💙 just for you, dawg</footer>
+  <footer>made with 💙 just for you, Ling</footer>
 </main>
 
 <script>
-  // ----- open the envelope -----
-  const envelope = document.getElementById('envelope');
-  const letterWrap = document.getElementById('letterWrap');
-  const tapText = document.getElementById('tapText');
-
-  envelope.addEventListener('click', () => {
-    const opening = !envelope.classList.contains('open');
-    envelope.classList.toggle('open', opening);
-    letterWrap.classList.toggle('show', opening);
-    tapText.textContent = opening ? 'tap again to close' : 'tap to open ✉️';
-    if (opening) {
-      confetti();
-      setTimeout(() => letterWrap.scrollIntoView({behavior:'smooth', block:'start'}), 500);
-    }
-  });
-
-  // ----- flip the polaroids -----
-  document.querySelectorAll('.pol').forEach(p => {
-    const flip = () => p.classList.toggle('flipped');
-    p.addEventListener('click', flip);
-    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
-  });
-
-  // ----- spinning disc follows the music -----
-  const audio = document.getElementById('audio');
-  const disc = document.getElementById('disc');
-  audio.addEventListener('play', () => disc.classList.add('playing'));
-  audio.addEventListener('pause', () => disc.classList.remove('playing'));
-  audio.addEventListener('ended', () => disc.classList.remove('playing'));
-
-  // ----- soft blue confetti -----
-  function confetti(){
-    const colors = ['#ffffff','#bcdcf8','#8dbfec','#5b9bd8','#2b5a9a','#d6ebff'];
-    for (let i = 0; i < 36; i++){
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      const size = 6 + Math.random() * 8;
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.width = size + 'px';
-      c.style.height = size * (Math.random() > .5 ? 1 : 1.8) + 'px';
-      c.style.background = colors[Math.floor(Math.random() * colors.length)];
-      c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
-      c.style.animationDuration = 2.6 + Math.random() * 2.4 + 's';
-      c.style.animationDelay = Math.random() * .6 + 's';
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 6000);
-    }
+  // ----- sound effects (made with code, no sound files needed) -----
+  let actx = null, muted = false;
+  function initAudio(){
+    if (!actx){ const AC = window.AudioContext || window.webkitAudioContext; if (AC) actx = new AC(); }
+    if (actx && actx.state === 'suspended') actx.resume();
   }
-
-  // ----- fade sections in as you scroll -----
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, {threshold: .15});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
-</body>
-</html>
+  function tone(freq, start, dur, type, vol){
+    if (!actx || muted) return;
+    const o = actx.createOscillator(), g = actx.createGain();
+    const t = actx.currentTime +
