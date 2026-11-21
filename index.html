@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday, Ling</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#e8f4ff;
+    --mist:#cfe6fb;
+    --blue:#5b9bd8;
+    --deep:#2b5a9a;
+    --ink:#27456b;
+    --paper:#fffdf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Playfair Display',Georgia,serif;
+    color:var(--ink);
+    background:linear-gradient(180deg,#eaf5ff 0%,#cfe6fb 45%,#a9cdf0 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+    overflow-x:hidden;
+    line-height:1.5;
+  }
+
+  /* ---------- floating sky ---------- */
+  .sky{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .cloud{
+    position:absolute;width:140px;height:44px;border-radius:50px;
+    background:rgba(255,255,255,.75);
+    filter:blur(1px);
+    animation:drift linear infinite;
+  }
+  .cloud::before,.cloud::after{
+    content:"";position:absolute;background:inherit;border-radius:50%;
+  }
+  .cloud::before{width:60px;height:60px;top:-28px;left:22px}
+  .cloud::after{width:74px;height:74px;top:-38px;left:64px}
+  .c1{top:8%;left:-180px;animation-duration:70s}
+  .c2{top:32%;left:-220px;animation-duration:95s;animation-delay:-30s;transform:scale(1.4);opacity:.7}
+  .c3{top:62%;left:-200px;animation-duration:80s;animation-delay:-55s;transform:scale(.9)}
+  .c4{top:85%;left:-160px;animation-duration:110s;animation-delay:-10s;transform:scale(1.2);opacity:.6}
+  @keyframes drift{to{transform:translateX(calc(100vw + 400px))}}
+  .c2,.c3,.c4{animation-name:drift}
+  .twinkle{
+    position:absolute;color:#fff;font-size:14px;opacity:.8;
+    animation:twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+
+  main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:44px 20px 70px}
+  section{margin-bottom:64px;text-align:center}
+
+  /* ---------- hero ---------- */
+  .eyebrow{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--deep);opacity:.85}
+  h1{
+    font-family:'Pacifico',cursive;font-weight:400;
+    font-size:clamp(2.3rem,10vw,3.2rem);
+    color:var(--deep);margin:6px 0 4px;line-height:1.2;
+    text-shadow:0 3px 0 rgba(255,255,255,.7);
+  }
+  .sub{font-family:'Caveat',cursive;font-size:1.6rem;color:var(--blue)}
+  h2{
+    font-family:'Pacifico',cursive;font-weight:400;
+    font-size:1.7rem;color:var(--deep);margin-bottom:8px;
+  }
+  .hint{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--deep);opacity:.8;margin-bottom:22px}
+
+  /* ---------- envelope ---------- */
+  .envelope{
+    position:relative;width:min(300px,82%);height:190px;margin:26px auto 0;
+    cursor:pointer;border:none;background:none;display:block;
+    -webkit-tap-highlight-color:transparent;
+    animation:bob 3.5s ease-in-out infinite;
+  }
+  .envelope.open{animation:none}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .env-back{
+    position:absolute;inset:0;border-radius:10px;
+    background:linear-gradient(160deg,#8fc1ef,#6aa7e2);
+    box-shadow:0 14px 30px rgba(43,90,154,.3);
+  }
+  .env-front{
+    position:absolute;inset:0;border-radius:10px;overflow:hidden;
+  }
+  .env-front::before,.env-front::after{
+    content:"";position:absolute;bottom:0;width:100%;height:100%;
+  }
+  .env-front::before{
+    background:linear-gradient(135deg,transparent 49.5%,#7fb5ea 50%);
+    clip-path:polygon(0 0,50% 55%,0 100%);
+  }
+  .env-front::after{
+    background:#79b0e6;
+    clip-path:polygon(100% 0,50% 55%,100% 100%);
+  }
+  .env-bottom{
+    position:absolute;left:0;right:0;bottom:0;height:62%;
+    background:#9cc9f3;border-radius:0 0 10px 10px;
+    clip-path:polygon(0 100%,50% 0,100% 100%);
+  }
+  .flap{
+    position:absolute;left:0;right:0;top:0;height:60%;
+    background:#5b9bd8;
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;
+    transition:transform .7s ease,z-index .7s;
+    z-index:3;
+  }
+  .envelope.open .flap{transform:rotateX(180deg);z-index:0}
+  .seal{
+    position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+    width:44px;height:44px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,#d6ebff 60%,#a5cdf3);
+    display:grid;place-items:center;font-size:1.3rem;z-index:4;
+    box-shadow:0 3px 8px rgba(0,0,0,.2);
+    transition:opacity .4s;
+  }
+  .envelope.open .seal{opacity:0}
+  .tap{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--deep);margin-top:18px}
+
+  /* ---------- letter ---------- */
+  .letter-wrap{
+    display:grid;grid-template-rows:0fr;
+    transition:grid-template-rows .9s ease;
+  }
+  .letter-wrap.show{grid-template-rows:1fr}
+  .letter-inner{overflow:hidden}
+  .letter{
+    margin:26px 4px 0;padding:30px 24px 34px;text-align:left;
+    background:
+      repeating-linear-gradient(transparent 0 31px,rgba(91,155,216,.18) 31px 32px),
+      var(--paper);
+    border-radius:6px;
+    box-shadow:0 18px 40px rgba(43,90,154,.25);
+    position:relative;
+    transform:rotate(-1deg);
+  }
+  .letter::before{
+    content:"";position:absolute;left:34px;top:0;bottom:0;width:2px;
+    background:rgba(240,128,128,.35);
+  }
+  .letter h3{
+    font-family:'Pacifico',cursive;font-weight:400;color:var(--deep);
+    font-size:1.5rem;margin-bottom:16px;padding-left:14px;
+  }
+  .letter p{
+    font-family:'Caveat',cursive;font-weight:500;
+    font-size:1.42rem;line-height:32px;color:#2c3e66;
+    margin-bottom:32px;padding-left:14px;
+  }
+  .letter p:last-child{margin-bottom:0}
+  .signed{font-weight:700}
+
+  /* ---------- polaroids ---------- */
+  .polaroids{display:flex;flex-direction:column;align-items:center;gap:38px;margin-top:10px}
+  .pol{
+    width:min(270px,80%);perspective:1000px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .pol:nth-child(1){transform:rotate(-4deg)}
+  .pol:nth-child(2){transform:rotate(3deg)}
+  .pol:nth-child(3){transform:rotate(-2deg)}
+  .pol-inner{
+    position:relative;width:100%;aspect-ratio:4/5.1;
+    transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1);
+  }
+  .pol.flipped .pol-inner{transform:rotateY(180deg)}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    border-radius:4px;box-shadow:0 14px 28px rgba(43,90,154,.28);
+  }
+  .front{background:#fff;padding:12px 12px 0;display:flex;flex-direction:column}
+  .photo{
+    position:relative;flex:1;overflow:hidden;
+    background:linear-gradient(145deg,#bcdcf8,#8dbfec);
+    display:grid;place-items:center;
+  }
+  .photo span{font-family:'Caveat',cursive;font-size:1.2rem;color:#fff;text-align:center;padding:0 10px}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .caption{
+    font-family:'Caveat',cursive;font-size:1.45rem;color:var(--deep);
+    text-align:center;padding:10px 0 12px;
+  }
+  .back{
+    transform:rotateY(180deg);
+    background:
+      repeating-linear-gradient(transparent 0 29px,rgba(91,155,216,.22) 29px 30px),
+      var(--paper);
+    padding:26px 22px;display:flex;flex-direction:column;justify-content:center;text-align:left;
+  }
+  .back::before{
+    content:"💌";position:absolute;top:10px;right:14px;font-size:1.2rem;
+  }
+  .back h4{font-family:'Pacifico',cursive;font-weight:400;color:var(--deep);font-size:1.15rem;margin-bottom:8px}
+  .back p{font-family:'Caveat',cursive;font-size:1.35rem;line-height:30px;color:#2c3e66}
+
+  /* ---------- song ---------- */
+  .song{
+    background:rgba(255,255,255,.55);backdrop-filter:blur(6px);
+    border-radius:26px;padding:26px 20px 22px;
+    box-shadow:0 12px 30px rgba(43,90,154,.2);
+  }
+  .disc{
+    width:110px;height:110px;margin:0 auto 14px;border-radius:50%;
+    background:
+      radial-gradient(circle,#fff 0 9%,#5b9bd8 10% 26%,transparent 27%),
+      repeating-radial-gradient(circle,#2b5a9a 0 3px,#35689f 3px 6px);
+    box-shadow:0 8px 18px rgba(43,90,154,.35);
+    animation:spin 6s linear infinite;animation-play-state:paused;
+  }
+  .disc.playing{animation-play-state:running}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .song-title{font-family:'Pacifico',cursive;font-size:1.35rem;color:var(--deep)}
+  .song-artist{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--blue);margin-bottom:14px}
+  audio{width:100%;border-radius:30px}
+
+  footer{
+    font-family:'Caveat',cursive;font-size:1.5rem;color:var(--deep);text-align:center;
+    padding-bottom:20px;
+  }
+
+  /* ---------- confetti ---------- */
+  .confetti{position:fixed;top:-20px;z-index:50;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
+
+  /* ---------- fade in on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- intro screen ---------- */
+  body.locked{overflow:hidden;height:100vh}
+  .intro{
+    position:fixed;inset:0;z-index:100;display:grid;place-items:center;text-align:center;
+    background:linear-gradient(180deg,#eaf5ff 0%,#bcdcf8 55%,#8dbfec 100%);
+    cursor:pointer;transition:opacity 1.3s ease,visibility 1.3s;
+  }
+  .intro.gone{opacity:0;visibility:hidden}
+  .intro-text{position:absolute;left:0;right:0;padding:0 24px;opacity:0;transition:opacity 1.5s ease}
+  .intro-text.show{opacity:1}
+  .intro-bday{
+    font-family:'Pacifico',cursive;font-size:clamp(2.4rem,11vw,3.8rem);color:var(--deep);
+    text-shadow:0 3px 0 rgba(255,255,255,.7);
+  }
+  .intro-bday small{display:block;font-family:'Caveat',cursive;font-size:.5em;color:var(--blue);margin-top:6px;text-shadow:none}
+  .intro-click{font-family:'Caveat',cursive;font-size:1.9rem;color:var(--deep)}
+  .intro-click.show{animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+
+  /* ---------- sound button ---------- */
+  .snd{
+    position:fixed;top:12px;right:12px;z-index:120;width:42px;height:42px;border-radius:50%;
+    border:none;background:rgba(255,255,255,.75);font-size:1.15rem;cursor:pointer;
+    box-shadow:0 4px 12px rgba(43,90,154,.25);-webkit-tap-highlight-color:transparent;
+  }
+
+  /* ---------- cat ---------- */
+  .cat{
+    background:none;border:none;cursor:pointer;position:relative;display:block;
+    margin:56px auto 0;-webkit-tap-highlight-color:transparent;
+  }
+  .cat-pic{
+    width:170px;height:170px;border-radius:50%;overflow:hidden;position:relative;
+    background:linear-gradient(145deg,#d6ebff,#8dbfec);border:6px solid #fff;
+    box-shadow:0 12px 26px rgba(43,90,154,.3);display:grid;place-items:center;font-size:4.5rem;
+  }
+  .cat-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cat.boing .cat-pic{animation:boing .5s}
+  @keyframes boing{
+    0%{transform:scale(1)}30%{transform:scale(1.18) rotate(-6deg)}
+    60%{transform:scale(.95) rotate(4deg)}100%{transform:scale(1)}
+  }
+  .bubble{
+    position:absolute;left:50%;top:-8px;transform:translate(-50%,-100%) scale(.6);opacity:0;
+    background:#fff;color:var(--deep);font-family:'Caveat',cursive;font-size:1.45rem;
+    padding:8px 18px;border-radius:18px;white-space:nowrap;
+    box-shadow:0 6px 16px rgba(43,90,154,.25);transition:opacity .3s,transform .3s;
+  }
+  .cat.talk .bubble{opacity:1;transform:translate(-50%,-100%) scale(1)}
+
+  /* ---------- birthday countdown ---------- */
+  .bday-card{
+    background:rgba(255,255,255,.6);backdrop-filter:blur(6px);
+    border-radius:26px;padding:26px 14px 24px;
+    box-shadow:0 12px 30px rgba(43,90,154,.2);
+  }
+  .bday-today{
+    display:none;font-family:'Pacifico',cursive;color:var(--deep);
+    font-size:1.25rem;line-height:1.5;margin-bottom:14px;
+  }
+  .bday-card.today .bday-today{display:block}
+  .turning{font-family:'Caveat',cursive;font-size:1.65rem;color:var(--deep)}
+  .count{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0 14px}
+  .count div{background:#fff;border-radius:14px;padding:10px 2px 6px;box-shadow:0 5px 12px rgba(43,90,154,.15)}
+  .count b{display:block;font-size:1.45rem;color:var(--deep);font-variant-numeric:tabular-nums}
+  .count span{font-family:'Caveat',cursive;font-size:1.05rem;color:var(--blue)}
+  .on-date{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--blue)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- sound on/off -->
+<button class="snd" id="snd" aria-label="Toggle sound">🔊</button>
+
+<!-- intro screen: Happy Birthday fades in, fades out, then "click anywhere" -->
+<div class="intro" id="intro">
+  <div class="intro-text intro-bday" id="introBday">Happy Birthday<small>Ling 💙</small></div>
+  <div class="intro-text intro-click" id="introClick">click anywhere to open ✉️</div>
+</div>
+
+<!-- floating clouds and sparkles -->
+<div class="sky" aria-hidden="true">
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+  <div class="cloud c4"></div>
+  <span class="twinkle" style="top:12%;left:12%;animation-delay:0s">✦</span>
+  <span class="twinkle" style="top:22%;left:84%;animation-delay:1s">✧</span>
+  <span class="twinkle" style="top:48%;left:6%;animation-delay:.5s">✦</span>
+  <span class="twinkle" style="top:70%;left:90%;animation-delay:1.6s">✧</span>
+  <span class="twinkle" style="top:88%;left:20%;animation-delay:2.2s">✦</span>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="reveal">
+    <p class="eyebrow">a cozy little corner just for you</p>
+    <h1>Happy Birthday, Ling!</h1>
+    <p class="sub">my twin 🎂🎊</p>
+  </section>
+
+  <!-- LETTER -->
+  <section class="reveal">
+    <h2>A Letter For You</h2>
+    <p class="hint">tap the envelope</p>
+
+    <button class="envelope" id="envelope" aria-label="Open the letter">
+      <div class="env-back"></div>
+      <div class="env-bottom"></div>
+      <div class="env-front"></div>
+      <div class="flap"></div>
+      <div class="seal">💙</div>
+    </button>
+    <p class="tap" id="tapText">tap to open ✉️</p>
+
+    <div class="letter-wrap" id="letterWrap">
+      <div class="letter-inner">
+        <article class="letter">
+          <h3>Dear Ling,</h3>
+
+          <p>Happy Birthday Ling, my twin! 🎂🎊</p>
+
+          <p>I still can't believe I was born on the same day as my best friend, but I'm so glad we were. Having you in my life absolutely feels like having a real sister, a twin in fact that I didn't know I needed 🥺🥺. You're always there for me, you look after me, you care about me, the one who makes me realize things, and you just make everything better. 🥺</p>
+
+          <p>I don't think it was a coincidence that we met at all. I think God really meant for us to meet and I'm glad he did put you into my life.</p>
+
+          <p>I still remember the first time we spoke in 7th grade WHAHAHA.. We spoke a lot and as time went on I was just like "yo, this girl is really something." There's just something special about you that makes me feel at ease and happy. But then you suddenly disappeared at one point, but that one spot in my heart just for you never did. I'd still think of you sometimes and be like "I hope we can have that connection again," and I never thought we'd ever get that close again. I'll always be grateful for that gift from God that he let us ❤️.</p>
+
+          <p>I just hope this year for your birthday it brings you all the good stuff you deserve: happiness, peace, foods, and all the good things HAHAWHA 😆😝.. Thanks for being my twin and just being you. Whenever we're together, nothing could make me happier..</p>
+
+          <p>Just so you know, you're stuck with me as your twin forever and no one else is going to get that spot in my heart. You're stuck with me, no returns, no refunds HWHAHHA 😆. Love you, twin! ❤️❤️</p>
+
+          <p class="signed">Again, Happy Birthday Aslii 🥺🥺</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLAROIDS -->
+  <section class="reveal">
+    <h2>Our Memories</h2>
+    <p class="hint">tap a photo to read its little note</p>
+
+    <div class="polaroids">
+
+      <!-- POLAROID 1: put your photo in the same folder as photo1.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo1.jpg</span><img src="photo1.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">where it all started</div>
+          </div>
+          <div class="face back">
+            <h4>7th grade</h4>
+            <p>Who knew a random "hi" would turn into my twin? Best accident ever.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- POLAROID 2: photo2.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo2.jpg</span><img src="photo2.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">found each other again</div>
+          </div>
+          <div class="face back">
+            <h4>Round two</h4>
+            <p>You disappeared, but your spot in my heart never did. Glad we got it back. 💙</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- POLAROID 3: photo3.jpg -->
+      <div class="pol" tabindex="0">
+        <div class="pol-inner">
+          <div class="face front">
+            <div class="photo"><span>add photo3.jpg</span><img src="photo3.jpg" alt="Us together" onerror="this.style.display='none'"></div>
+            <div class="caption">twins forever</div>
+          </div>
+          <div class="face back">
+            <h4>Terms &amp; conditions</h4>
+            <p>You're stuck with me. No returns, no refunds. 😆</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CAT: put your cat picture in the folder as cat.jpg -->
+  <section class="reveal">
+    <h2>Someone Says Hi</h2>
+    <p class="hint">tap the cat</p>
+    <button class="cat" id="cat" aria-label="Tap the cat">
+      <div class="cat-pic"><span>🐱</span><img src="cat.jpg" alt="Cat" onerror="this.style.display='none'"></div>
+      <div class="bubble">meow~ happy birthday! 🐾</div>
+    </button>
+  </section>
+
+  <!-- SONG -->
+  <section class="reveal">
+    <h2>Your Song</h2>
+    <p class="hint">press play and stay a while</p>
+    <div class="song">
+      <div class="disc" id="disc"></div>
+      <div class="song-title">Statue</div>
+      <div class="song-artist">Lil Eddie</div>
+      <!-- put the song in the same folder as song.mp3 -->
+      <audio id="audio" controls preload="none" src="song.mp3"></audio>
+    </div>
+  </section>
+
+  <!-- NEXT BIRTHDAY COUNTDOWN -->
+  <section class="reveal">
+    <h2>Your Next Birthday</h2>
+    <p class="hint">born November 21, 2009</p>
+    <div class="bday-card" id="bdayCard">
+      <div class="bday-today" id="bdayToday"></div>
+      <p class="turning" id="nextLabel"></p>
+      <div class="count">
+        <div><b id="cMonths">0</b><span>months</span></div>
+        <div><b id="cDays">0</b><span>days</span></div>
+        <div><b id="cHours">0</b><span>hours</span></div>
+        <div><b id="cMins">0</b><span>mins</span></div>
+        <div><b id="cSecs">0</b><span>secs</span></div>
+      </div>
+      <p class="on-date" id="onDate"></p>
+    </div>
+  </section>
+
+  <footer>made with 💙 just for you, Ling</footer>
+</main>
+
+<script>
+  // ----- sound effects (made with code, no sound files needed) -----
+  let actx = null, muted = false;
+  function initAudio(){
+    if (!actx){ const AC = window.AudioContext || window.webkitAudioContext; if (AC) actx = new AC(); }
+    if (actx && actx.state === 'suspended') actx.resume();
+  }
+  function tone(freq, start, dur, type, vol){
+    if (!actx || muted) return;
+    const o = actx.createOscillator(), g = actx.createGain();
+    const t = actx.currentTime + start;
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + .02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t + dur + .05);
+  }
+  // soft magical chime for opening
+  function synthOpen(){ [659.25, 783.99, 987.77, 1318.5].forEach((f, i) => tone(f, i * .11, .9, 'sine', .16)); }
+  // paper whoosh for flipping / turning the page
+  function synthFlip(){
+    if (!actx || muted) return;
+    const len = Math.floor(actx.sampleRate * .3);
+    const buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1.5);
+    const src = actx.createBufferSource(); src.buffer = buf;
+    const f = actx.createBiquadFilter(), g = actx.createGain(), t = actx.currentTime;
+    f.type = 'bandpass'; f.Q.value = .8;
+    f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(3200, t + .28);
+    g.gain.value = .5;
+    src.connect(f); f.connect(g); g.connect(actx.destination); src.start(t);
+  }
+  // little meow
+  function synthMeow(){
+    if (!actx || muted) return;
+    const t = actx.currentTime, o = actx.createOscillator(), f = actx.createBiquadFilter(), g = actx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(520, t);
+    o.frequency.linearRampToValueAtTime(880, t + .18);
+    o.frequency.linearRampToValueAtTime(430, t + .55);
+    f.type = 'bandpass'; f.Q.value = 3;
+    f.frequency.setValueAtTime(900, t);
+    f.frequency.linearRampToValueAtTime(1800, t + .2);
+    f.frequency.linearRampToValueAtTime(800, t + .55);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(.35, t + .06);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + .6);
+    o.connect(f); f.connect(g); g.connect(actx.destination);
+    o.start(t); o.stop(t + .65);
+  }
+
+  // ----- YOUR OWN SOUNDS -----
+  // Put these files in the same folder as index.html:
+  //   open.mp3      -> opening the card / envelope   (optional)
+  //   pageturn.mp3  -> turning the page / flipping a photo
+  //   meow.mp3      -> pressing the cat
+  // If a file is missing, the built-in code sound plays instead.
+  const sfx = {};
+  ['open', 'pageturn', 'meow'].forEach(n => { const a = new Audio(n + '.mp3'); a.preload = 'auto'; sfx[n] = a; });
+  function playSfx(name, fallback){
+    if (muted) return;
+    const a = sfx[name].cloneNode();
+    a.currentTime = 0;
+    const p = a.play();
+    if (p && p.catch) p.catch(() => fallback());
+  }
+  function playOpen(){ playSfx('open', synthOpen); }
+  function playFlip(){ playSfx('pageturn', synthFlip); }
+  function playMeow(){ playSfx('meow', synthMeow); }
+
+  // sound on/off button
+  const sndBtn = document.getElementById('snd');
+  sndBtn.addEventListener('click', () => {
+    initAudio();
+    muted = !muted;
+    sndBtn.textContent = muted ? '🔇' : '🔊';
+    if (muted) audio.pause();
+  });
+
+  // ----- open the envelope -----
+  const envelope = document.getElementById('envelope');
+  const letterWrap = document.getElementById('letterWrap');
+  const tapText = document.getElementById('tapText');
+
+  envelope.addEventListener('click', () => {
+    const opening = !envelope.classList.contains('open');
+    envelope.classList.toggle('open', opening);
+    letterWrap.classList.toggle('show', opening);
+    tapText.textContent = opening ? 'tap again to close' : 'tap to open ✉️';
+    if (opening) playOpen(); else playFlip();
+    if (opening) {
+      confetti();
+      setTimeout(() => letterWrap.scrollIntoView({behavior:'smooth', block:'start'}), 500);
+    }
+  });
+
+  // ----- flip the polaroids -----
+  document.querySelectorAll('.pol').forEach(p => {
+    const flip = () => { p.classList.toggle('flipped'); playFlip(); };
+    p.addEventListener('click', flip);
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+  });
+
+  // ----- spinning disc follows the music -----
+  const audio = document.getElementById('audio');
+  const disc = document.getElementById('disc');
+  audio.addEventListener('play', () => disc.classList.add('playing'));
+  audio.addEventListener('pause', () => disc.classList.remove('playing'));
+  audio.addEventListener('ended', () => disc.classList.remove('playing'));
+
+  // ----- soft blue confetti -----
+  function confetti(){
+    const colors = ['#ffffff','#bcdcf8','#8dbfec','#5b9bd8','#2b5a9a','#d6ebff'];
+    for (let i = 0; i < 36; i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      const size = 6 + Math.random() * 8;
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.width = size + 'px';
+      c.style.height = size * (Math.random() > .5 ? 1 : 1.8) + 'px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+      c.style.animationDuration = 2.6 + Math.random() * 2.4 + 's';
+      c.style.animationDelay = Math.random() * .6 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 6000);
+    }
+  }
+
+  // ----- fade sections in as you scroll -----
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold: .15});
+  function startReveal(){ document.querySelectorAll('.reveal').forEach(el => io.observe(el)); }
+
+  // ----- next birthday countdown (born November 21, 2009) -----
+  const BORN_YEAR = 2009, BDAY_MONTH = 10, BDAY_DAY = 21; // month 10 = November
+  function addMonths(d, m){
+    const r = new Date(d), day = r.getDate();
+    r.setDate(1); r.setMonth(r.getMonth() + m);
+    const last = new Date(r.getFullYear(), r.getMonth() + 1, 0).getDate();
+    r.setDate(Math.min(day, last));
+    return r;
+  }
+  function tickBday(){
+    const now = new Date();
+    const isToday = now.getMonth() === BDAY_MONTH && now.getDate() === BDAY_DAY;
+    let target = new Date(now.getFullYear(), BDAY_MONTH, BDAY_DAY);
+    if (target <= now) target = new Date(now.getFullYear() + 1, BDAY_MONTH, BDAY_DAY);
+    const turning = target.getFullYear() - BORN_YEAR;
+
+    let m = (target.getFullYear() - now.getFullYear()) * 12 + target.getMonth() - now.getMonth();
+    while (m > 0 && addMonths(now, m) > target) m--;
+    let ms = target - addMonths(now, m);
+    const d = Math.floor(ms / 864e5); ms -= d * 864e5;
+    const h = Math.floor(ms / 36e5);  ms -= h * 36e5;
+    const mi = Math.floor(ms / 6e4);  ms -= mi * 6e4;
+    const s = Math.floor(ms / 1000);
+
+    document.getElementById('cMonths').textContent = m;
+    document.getElementById('cDays').textContent = d;
+    document.getElementById('cHours').textContent = String(h).padStart(2, '0');
+    document.getElementById('cMins').textContent = String(mi).padStart(2, '0');
+    document.getElementById('cSecs').textContent = String(s).padStart(2, '0');
+    document.getElementById('nextLabel').textContent = 'until you turn ' + turning + ' 🎈';
+    document.getElementById('onDate').textContent =
+      target.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+    document.getElementById('bdayCard').classList.toggle('today', isToday);
+    if (isToday) document.getElementById('bdayToday').textContent =
+      '🎉 Today is your birthday! You are ' + (turning - 1) + ' today! 🎉';
+  }
+  tickBday();
+  setInterval(tickBday, 1000);
+
+  // ----- cat: press for a meow -----
+  const cat = document.getElementById('cat');
+  cat.addEventListener('click', () => {
+    initAudio();
+    playMeow();
+    cat.classList.remove('boing'); void cat.offsetWidth; cat.classList.add('boing');
+    cat.classList.add('talk');
+    clearTimeout(cat._t);
+    cat._t = setTimeout(() => cat.classList.remove('talk'), 1800);
+  });
+
+  // ----- intro: fade in "Happy Birthday" -> fade out -> "click anywhere" -----
+  const intro = document.getElementById('intro');
+  const introBday = document.getElementById('introBday');
+  const introClick = document.getElementById('introClick');
+  let introReady = false;
+
+  setTimeout(() => introBday.classList.add('show'), 500);       // fade in
+  setTimeout(() => introBday.classList.remove('show'), 3300);   // fade out
+  setTimeout(() => { introClick.classList.add('show'); introReady = true; }, 5000);
+
+  intro.addEventListener('click', () => {
+    if (!introReady) return;
+    introReady = false;
+    initAudio();
+    playOpen();
+    intro.classList.add('gone');
+    document.body.classList.remove('locked');
+    window.scrollTo(0, 0);
+    setTimeout(startReveal, 500);
+    setTimeout(confetti, 600);
+    setTimeout(() => intro.remove(), 1500);
+  });
+</script>
+</body>
+</html>
